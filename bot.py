@@ -6,7 +6,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from telegram.ext import CallbackContext
 
 # Токен бота
-TOKEN = 'YOUR_BOT_TOKEN'
+TOKEN = '8012826747:AAFiSPxff5U6icNTG6fi054bML1veK9P-x4'
 
 # Встановлюємо логування
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
