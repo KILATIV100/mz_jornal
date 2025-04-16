@@ -52,6 +52,22 @@ async def start(update: Update, context: CallbackContext):
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text("Please select your language / Будь ласка, виберіть мову", reply_markup=reply_markup)
     return SELECT_LANGUAGE
+from telegram.ext import CallbackQueryHandler
+
+# Обробник callback запитів, який слідкує за кожним повідомленням
+conv_handler = ConversationHandler(
+    entry_points=[CommandHandler('start', start)],
+    states={
+        SELECT_LANGUAGE: [CallbackQueryHandler(select_language, per_message=True)],
+        SELECT_JOURNAL: [CallbackQueryHandler(select_journal, per_message=True)],
+        INPUT_OBJECT_NAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, input_object_name)],
+        INPUT_DESCRIPTION: [MessageHandler(filters.TEXT & ~filters.COMMAND, input_description)],
+        INPUT_SENDER_RECEIVER: [MessageHandler(filters.TEXT & ~filters.COMMAND, input_sender_receiver)],
+        FILE_ATTACHMENT: [MessageHandler(filters.Document.ALL, file_attachment)],
+    },
+    fallbacks=[CommandHandler('cancel', cancel)],
+)
+
 
 # Обробка вибору мови
 async def select_language(update: Update, context: CallbackContext):
